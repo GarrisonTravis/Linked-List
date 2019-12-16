@@ -1,10 +1,17 @@
 #include <iostream>
-#include "Node.h"
+#include "LinkedList.cpp"
 
 using namespace std;
 
 int main() {
 
-	Node<int>* newnode = new Node<int>();
+	int arr[5] = { 5, 10, 15, 20, 25 };
+	
+	LinkedList<int> ll(arr, 5);
 
+	ll.print();
+
+	ll.insertFront(30);
+
+	ll.print();
 }
