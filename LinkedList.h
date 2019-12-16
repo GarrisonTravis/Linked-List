@@ -12,7 +12,11 @@ private:
 public:
 	LinkedList();
 	LinkedList(Type);
-	LinkedList(Type arr[]);
+	LinkedList(Type arr[], int size);
+
+	void insertFront(Type);
+
+	void print();
 };
 
 #endif
