@@ -13,8 +13,17 @@ public:
 	LinkedList();
 	LinkedList(Type);
 	LinkedList(Type arr[], int size);
+	~LinkedList();
+
+	Type getHead();
+	Type getTail();
 
 	void insertFront(Type);
+	void insertBack(Type);
+	void insertAfter(Type, int);
+	void insertBefore(Type, int);
+	void deleteValue(Type);
+	void clear();
 
 	void print();
 };
