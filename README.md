@@ -1,6 +1,6 @@
 # Linked-List
 
-This repository contains the code for a singly linked list.
+This repository contains the code for a templated singly linked list.
 
 Operations:
 -----------
