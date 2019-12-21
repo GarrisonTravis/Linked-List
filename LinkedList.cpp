@@ -183,29 +183,35 @@ void LinkedList<Type>::deleteValue(Type val) {
 	if (head == NULL)
 		return;
 	
-	if (head->val == val) {
-		Node<Type>* temp = head;
-		head = head->next;
-		delete temp;
-	}
-	else {
-		Node<Type>* current = head->next;
-		Node<Type>* trail = head;
+	Node<Type>* current = head;
+	Node<Type>* trail = NULL;
 
-		while (current) {
-			if (current->val == val) {
+	while (current) {
+		if (current->val == val) {
+			//Deletes node at front of the list
+			if (current == head) {
+				head = current->next;
+				delete current;
+				current = head;
+			}
+			//Deletes node at end of the list
+			else if (current == tail) {
+				tail = trail;
+				tail->next = NULL;
+				delete current;
+				current = NULL;
+			}
+			//Deletes node in the middle of the list
+			else {
 				trail->next = current->next;
 				delete current;
 				current = trail->next;
-
-			}
-			else {
-				current = current->next;
-				trail = trail->next;
 			}
 		}
-		//Reset tail if last node was deleted
-		tail = trail;
+		else {
+			trail = current;
+			current = current->next;
+		}
 	}
 }
 
