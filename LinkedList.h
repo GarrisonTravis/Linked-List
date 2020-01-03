@@ -13,6 +13,7 @@ public:
 	LinkedList();
 	LinkedList(Type);
 	LinkedList(Type arr[], int size);
+	LinkedList(const LinkedList& ll);
 	~LinkedList();
 
 	Type getHead();
