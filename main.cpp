@@ -122,6 +122,14 @@ int main() {
 	charList.deleteValue('A');
 	charList.print();
 
+	cout << "\nTesting Copy Constructor:" << endl;
+	cout << "---------------------------" << endl;
+	cout << "First List: ";
+	charList.print();
+	LinkedList<char> charListCopy = charList;
+	cout << "Second List: ";
+	charListCopy.print();
+
 	cout << "\nMore Testing of deleteValue function:" << endl;
 	cout << "---------------------------------------" << endl;
 	LinkedList<int> ll(2);
