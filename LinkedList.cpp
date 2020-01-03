@@ -1,242 +1,151 @@
 #include <iostream>
-#include "LinkedList.h"
+#include "LinkedList.cpp"
 
 using namespace std;
 
-//Default Constructor
-//Post: Linked List will be built with one node where val = 0
-template <class Type>
-LinkedList<Type>::LinkedList() : head(NULL), tail(NULL) {}
+int main() {
 
-//Constructor with one value parameter
-//Post: Linked List will be built with one node including the val parameter
-template <class Type>
-LinkedList<Type>::LinkedList(Type val) {
-	Node<Type>* newNode = new Node<Type>(val);
-
-	head = newNode;
-	tail = newNode;
-}
-
-//Constructor with an array as a parameter
-//Post: Linked List will contain the contents of the array in the same order
-template <class Type>
-LinkedList<Type>::LinkedList(Type arr[], int size) {
-
-	Node<Type>* newNode = new Node<Type>;
-	head = newNode;
-	tail = newNode;
-
-	Node<Type>* current = head;
-
-	for (int i = 0; i < size; i++) {
-		current->val = arr[i];
-
-		if (i != size - 1) {
-			newNode = new Node<Type>;
-			current->next = newNode;
-			current = current->next;
-		}
-		else
-			tail = current;
-	}
-}
-
-//Destructor
-template <class Type>
-LinkedList<Type>::~LinkedList() {
-	LinkedList<Type>::clear();
-}
-
-//Returns head value
-template <class Type>
-Type LinkedList<Type>::getHead() {
-	return head->val;
-}
-
-//Returns tail value
-template <class Type>
-Type LinkedList<Type>::getTail() {
-	return tail->val;
-}
-
-//Inserts a node at the front of the linked list
-//Post: A new node with the parameter will be inserted at the front of the linked list
-template <class Type>
-void LinkedList<Type>::insertFront(Type val) {
-
-	//Empty List
-	if (head == NULL) {
-		head = new Node<Type>(val);
-		tail = head;
-	}
-	//1 Node List
-	else if (head->next == NULL) {
-		head = new Node<Type>(val);
-		head->next = tail;
-	}
-	//More Than 1 Node List
-	else {
-		Node<Type>* temp = head;
-		head = new Node<Type>(val);
-		head->next = temp;
-	}
-}
-
-//Inserts a node at the end of the linked list
-//Post: Linked List will contain the val at the end of the list
-template <class Type>
-void LinkedList<Type>::insertBack(Type val) {
-	Node<Type>* newNode = new Node<Type>;
-
-	//Empty List
-	if (head == NULL) {
-		head = newNode;
-		head->val = val;
-		tail = newNode;
-	}
-	//1 Node List
-	else if (head->next == NULL) {
-		head->next = newNode;
-		tail = newNode;
-		newNode->val = val;
-	}
-	//More Than 1 Node List
-	else {
-		tail->next = newNode;
-		tail = newNode;
-		tail->val = val;
-	}
-}
-
-//Inserts a node after a certain index
-//If index is out of range, the node will be added at the end of the list
-//Post: Linked List will contain the new val after the given index
-template <class Type>
-void LinkedList<Type>::insertAfter(Type val, int index) {
-	Node<Type>* newNode = new Node<Type>(val);
-
-	if (head == NULL) {
-		head = newNode;
-		tail = newNode;
-	}
-	else {
-		Node<Type>* current = head->next;
-		Node<Type>* trail = head;
-		int i = 0;
-
-		while (current && i < index) {
-			i++;
-			current = current->next;
-			trail = trail->next;
-		}
-
-		trail->next = newNode;
-		newNode->next = current;
-
-		if (current == NULL)
-			tail = newNode;
-	}
-}
-
-//Inserts a node before the given index
-//If the index is out of range, the val will be inserted at the end of the list
-//Post: Linked List will contain the new val before the index
-template <class Type>
-void LinkedList<Type>::insertBefore(Type val, int index) {
-	Node<Type>* newNode = new Node<Type>(val);
-
-	if (head == NULL) {
-		head = newNode;
-		tail = newNode;
-	}
-	else {
-		if (index == 0) {
-			newNode->next = head;
-			head = newNode;
-		}
-		else {
-			Node<Type>* current = head->next;
-			Node<Type>* trail = head;
-			int i = 1;
-
-			while (current && i < index) {
-				current = current->next;
-				trail = trail->next;
-				i++;
-			}
-
-			trail->next = newNode;
-			newNode->next = current;
-
-			if (current == NULL)
-				tail = newNode;
-		}
-	}
-}
-
-//Deletes all instances of the val from the linked list
-//If val doesn't exist in the list, then nothing is deleted
-//Post: The linked list doesn't contain any instances of val
-template <class Type>
-void LinkedList<Type>::deleteValue(Type val) {
-	if (head == NULL)
-		return;
+	int arr[4] = { 5, 10, 20, 25 };
 	
-	Node<Type>* current = head;
-	Node<Type>* trail = NULL;
+	cout << "Testing Linked List initialized with an array:" << endl;
+	cout << "----------------------------------------------" << endl;
+	LinkedList<int> list1(arr, 4);		
 
-	while (current) {
-		if (current->val == val) {
-			//Deletes node at front of the list
-			if (current == head) {
-				head = current->next;
-				delete current;
-				current = head;
-			}
-			//Deletes node at end of the list
-			else if (current == tail) {
-				tail = trail;
-				tail->next = NULL;
-				delete current;
-				current = NULL;
-			}
-			//Deletes node in the middle of the list
-			else {
-				trail->next = current->next;
-				delete current;
-				current = trail->next;
-			}
-		}
-		else {
-			trail = current;
-			current = current->next;
-		}
-	}
-}
+	list1.print();
 
-//Deletes every node in the linked list
-//Post: Empty list
-template <class Type>
-void LinkedList<Type>::clear() {
-	Node<Type>* current = head;
+	cout << "\nInsertFront: 0" << endl;
+	list1.insertFront(0);
+	list1.print();
+	cout << "Head = " << list1.getHead() << endl;
+	cout << "Tail = " << list1.getTail() << endl;
 
-	while (head) {
-		head = head->next;
-		delete current;
-		current = head;
-	}
-}
+	cout << "\nInsertBack: 30 " << endl;
+	list1.insertBack(30);
+	list1.print();
+	cout << "Head = " << list1.getHead() << endl;
+	cout << "Tail = " << list1.getTail() << endl;
 
-//Prints the linked list
-template <class Type>
-void LinkedList<Type>::print() {
-	Node<Type>* current = head;
+	cout << "\nInsertAfter index 2: 15" << endl;
+	list1.insertAfter(15, 2);
+	list1.print();
+	cout << "Head = " << list1.getHead() << endl;
+	cout << "Tail = " << list1.getTail() << endl;
 
-	cout << "List = ";
-	while (current) {
-		cout << current->val << " ";
-		current = current->next;
-	}
-	cout << endl;
+	cout << "\nDelete: 10" << endl;
+	list1.deleteValue(10);
+	list1.print();
+	cout << "Head = " << list1.getHead() << endl;
+	cout << "Tail = " << list1.getTail() << endl;
+
+	cout << "\nDelete: 0" << endl;
+	list1.deleteValue(0);
+	list1.print();
+	cout << "Head = " << list1.getHead() << endl;
+	cout << "Tail = " << list1.getTail() << endl;
+
+	cout << "\nDelete: 30" << endl;
+	list1.deleteValue(30);
+	list1.print();
+	cout << "Head = " << list1.getHead() << endl;
+	cout << "Tail = " << list1.getTail() << endl;
+
+	cout << "\nTesting Linked List initialized with default constructor (empty list):" << endl;
+	cout << "------------------------------------------------------------------------" << endl;
+	LinkedList<int> list2;
+
+	list2.print();
+
+	cout << "\nInsertFront: 3, 4, 5" << endl;
+	list2.insertFront(3);
+	list2.insertFront(4);
+	list2.insertFront(5);
+	list2.print();
+	cout << "Head = " << list2.getHead() << endl;
+	cout << "Tail = " << list2.getTail() << endl;
+
+	cout << "\nInsertBack: 2, 1" << endl;
+	list2.insertBack(2);
+	list2.insertBack(1);
+	list2.print();
+	cout << "Head = " << list2.getHead() << endl;
+	cout << "Tail = " << list2.getTail() << endl;
+
+	cout << "\nInsertAfter index 4: 0" << endl;
+	list2.insertAfter(0, 4);
+	list2.print();
+	cout << "Head = " << list2.getHead() << endl;
+	cout << "Tail = " << list2.getTail() << endl;
+
+	cout << "\nTesting Linked List initialized with 1 node:" << endl;
+	cout << "----------------------------------------------" << endl;
+	LinkedList<int> list3(50);
+
+	list3.print();
+
+	cout << "\nInsertBack: 55, 60, 70" << endl;
+	list3.insertBack(55);
+	list3.insertBack(60);
+	list3.insertBack(70);
+	list3.print();
+	cout << "Head = " << list3.getHead() << endl;
+	cout << "Tail = " << list3.getTail() << endl;
+
+	cout << "\nInsertBefore index 3: 65" << endl;
+	list3.insertBefore(65, 3);
+	list3.print();
+	cout << "Head = " << list3.getHead() << endl;
+	cout << "Tail = " << list3.getTail() << endl;
+
+	cout << "\nInsertFront: 45, 40" << endl;
+	list3.insertFront(45);
+	list3.insertFront(40);
+	list3.print();
+	cout << "Head = " << list3.getHead() << endl;
+	cout << "Tail = " << list3.getTail() << endl;
+
+	cout << "\nInsertBefore index 0: 35" << endl;
+	list3.insertBefore(35, 0);
+	list3.print();
+	cout << "Head = " << list3.getHead() << endl;
+	cout << "Tail = " << list3.getTail() << endl;
+
+	cout << "\nClearing the List:" << endl;
+	list3.clear();
+	list3.print();
+
+	cout << "\nTesting Linked List initialized with an array of characters:" << endl;
+	cout << "------------------------------------------------------------" << endl;
+	char charArr[5] = { 'A', 'B', 'C', 'A', 'B' };
+	LinkedList<char> charList(charArr, 5);
+	charList.print();
+	cout << "\nDelete: 'A'" << endl;
+	charList.deleteValue('A');
+	charList.print();
+
+	cout << "\nTesting Copy Constructor:" << endl;
+	cout << "---------------------------" << endl;
+	cout << "First List: ";
+	charList.print();
+	LinkedList<char> charListCopy = charList;
+	cout << "Second List: ";
+	charListCopy.print();
+
+	cout << "\nMore Testing of deleteValue function:" << endl;
+	cout << "---------------------------------------" << endl;
+	LinkedList<int> ll(2);
+	ll.insertBack(3);
+	ll.insertFront(1);
+	ll.insertBack(4);
+	ll.insertAfter(1, 3);
+	ll.print();
+	cout << "\nDelete: 1" << endl;
+	ll.deleteValue(1);
+	ll.print();
+	cout << "Head = " << ll.getHead() << endl;
+	cout << "Tail = " << ll.getTail() << endl;
+	cout << "\nDelete: 3" << endl;
+	ll.deleteValue(3);
+	ll.print();
+	cout << "Head = " << ll.getHead() << endl;
+	cout << "Tail = " << ll.getTail() << endl;
 }
