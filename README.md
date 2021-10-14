@@ -13,6 +13,3 @@ Operations:
   - Delete Node by Value
   - Clear
   - Print
-  
-  
-  Property of Garrison Travis
